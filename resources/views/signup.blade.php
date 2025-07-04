@@ -125,7 +125,7 @@
                             <div class="form-group">
                                 <button class="btn btn-primary btn-block" type="submit">Buat Akun</button>
                             </div>
-                            <p>Sudah Punya Akun?<a class="ms-2" href="log-in.html">Sign in</a></p>
+                            <p>Sudah Punya Akun?<a class="ms-2" href="{{ route('login') }}">Sign in</a></p>
                         </form>
                     </div>
                 </div>

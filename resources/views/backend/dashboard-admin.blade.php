@@ -5,11 +5,11 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header pb-0">
-                        <h5>Selamat Datang di</h5><span>Toko Ternak</span>
+                        <h5>Selamat Datang di Toko Ternak</h5>
                     </div>
-                    {{-- <div class="card-body">
+                    <div class="card-body">
                         <p></p>
-                    </div> --}}
+                    </div>
                 </div>
             </div>
         </div>
