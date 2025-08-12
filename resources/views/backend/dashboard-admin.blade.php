@@ -1,4 +1,4 @@
-@extends('template.admin')
+@extends('template.' . Session::get('type'))
 @section('content')
     <div class="container-fluid">
         <div class="row">

@@ -36,7 +36,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>Alamat</th>
+                                <th>Alamat Jalan</th>
                                 <td>
                                     <input type="text"
                                         class="form-control py-3 mb-4 @error('alamat_jalan') is-invalid @enderror"

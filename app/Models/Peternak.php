@@ -19,4 +19,10 @@ class Peternak extends Model
             'username' => 'no data'
         ]);
     }
+    function kecamatan(): BelongsTo
+    {
+        return $this->belongsTo(Kecamatan::class, 'kecamatan_id', 'kecamatan_id')->withDefault([
+            'kecamatan_nama' => 'no data'
+        ]);
+    }
 }

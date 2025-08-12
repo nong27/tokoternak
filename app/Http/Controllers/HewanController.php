@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Session;
 
 class HewanController extends Controller
 {
+    protected $user;
+    function __construct()
+    {
+        $this->user = User::where('email', Session::get('email'))->first();
+    }
     function jenisHewan()
     {
         $title = 'Jenis Hewan';
@@ -58,7 +63,10 @@ class HewanController extends Controller
         $title = 'Hewan';
         $hewan = Hewan::where('hewan_jumlah', '>', 0)->get();
         $jenishewan = Jenishewan::all();
-        $peternak = Peternak::all();
+        if (Session::get('type') == 'admin')
+            $peternak = Peternak::all();
+        else
+            $peternak = Peternak::where('kecamatan_id', $this->user->operator->kecamatan_id)->get();
         return view('backend.hewan', compact('hewan', 'jenishewan', 'title', 'peternak'));
     }
     function insert(Request $request): RedirectResponse

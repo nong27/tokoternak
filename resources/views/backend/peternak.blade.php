@@ -1,4 +1,4 @@
-@extends('template.admin')
+@extends('template.' . Session::get('type'))
 @section('content')
     <div class="container-fluid">
         <div class="page-header">
@@ -42,6 +42,7 @@
                                         <th>Nama Lengkap</th>
                                         <th>Jenis Kelamin</th>
                                         <th>Alamat</th>
+                                        <th>Kecamatan</th>
                                         <th>HP</th>
                                         <th>Profile</th>
                                         <th>TTL</th>
@@ -57,6 +58,7 @@
                                         <td>{{ $row->peternak_nama }}</td>
                                         <td>{{ $row->peternak_jk }}</td>
                                         <td>{{ $row->peternak_alamat }}</td>
+                                        <td>{{ $row->kecamatan->kecamatan_nama }}</td>
                                         <td>{{ $row->peternak_hp }}</td>
                                         <td><img src="{{ asset('storage/' . $row->peternak_foto) }}" alt=""></td>
                                         <td>{{ $row->peternak_tempatlahir }}, {{ $row->peternak_tgllahir }}</td>
@@ -151,6 +153,18 @@
                                     @enderror
                                 </div>
                             </div>
+                            @if (Session::get('type') == 'admin')
+                                <div class="mb-3 row mb-0">
+                                    <label class="col-lg-12 form-label " for="kecamatan_id">Kecamatan</label>
+                                    <select id="selectbasic" name="kecamatan_id" class="form-select btn-square">
+                                        <option value="" label=""></option>
+                                        @foreach ($kecamatan as $item)
+                                            <option value="{{ $item->kecamatan_id }}" @selected($item->kecamatan_id == old('kecamatan_id'))>
+                                                {{ $item->kecamatan_nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endif
 
                             <!-- Text input-->
                             <div class="mb-3 row">

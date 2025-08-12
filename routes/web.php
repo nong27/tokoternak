@@ -7,9 +7,11 @@ use App\Http\Controllers\HewanController;
 use App\Http\Controllers\PeternakController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Middleware\AdminLogin;
+use App\Http\Middleware\OperatorLogin;
 use App\Http\Middleware\PelangganLogin;
 use Illuminate\Support\Facades\Route;
 
@@ -56,6 +58,14 @@ Route::prefix('admin')->middleware(AdminLogin::class)->group(function () {
     Route::post('/peternak/update', [PeternakController::class, 'update'])->name('peternak.update');
     Route::post('/peternak/delete', [PeternakController::class, 'delete'])->name('peternak.delete');
 
+    Route::get('/operator', [OperatorController::class, 'index'])->name('operator.index');
+    Route::get('/operator/tambah', [OperatorController::class, 'tambah'])->name('operator.tambah');
+    Route::get('/operator/edit/{operator_id}', [OperatorController::class, 'edit'])->name('operator.edit');
+    Route::get('/operator/{operator_id}', [OperatorController::class, 'view'])->name('operator.detail');
+    Route::post('/operator/insert', [OperatorController::class, 'insert'])->name('operator.insert');
+    Route::post('/operator/update', [OperatorController::class, 'update'])->name('operator.update');
+    Route::post('/operator/delete', [OperatorController::class, 'delete'])->name('operator.delete');
+
     Route::get('/jenishewan', [HewanController::class, 'jenisHewan'])->name('jenishewan.index');
     Route::post('/jenishewan/insert', [HewanController::class, 'insertjenisHewan'])->name('jenishewan.insert');
     Route::post('/jenishewan/update', [HewanController::class, 'updatejenisHewan'])->name('jenishewan.update');
@@ -79,4 +89,48 @@ Route::prefix('admin')->middleware(AdminLogin::class)->group(function () {
     Route::get('/order/selesai', [TransaksiController::class, 'selesai'])->name('admin.order.selesai');
     Route::get('/laporan', [LaporanController::class, 'transaksi'])->name('admin.laporan');
     Route::get('/laporan/cetak', [LaporanController::class, 'cetak'])->name('admin.cetak-laporan');
+});
+Route::prefix('operator')->middleware(OperatorLogin::class)->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('operator');
+    Route::get('/profil', [AuthController::class, 'profil'])->name('operator.profil');
+    Route::post('/ganti-password', [AuthController::class, 'gantiPassword'])->name('operator.gantiPassword');
+    Route::get('/peternak', [PeternakController::class, 'index'])->name('peternak.index');
+    Route::get('/peternak/tambah', [PeternakController::class, 'tambah'])->name('peternak.tambah');
+    Route::get('/peternak/edit/{peternak_id}', [PeternakController::class, 'edit'])->name('peternak.edit');
+    Route::get('/peternak/{peternak_id}', [PeternakController::class, 'view'])->name('peternak.detail');
+    Route::post('/peternak/insert', [PeternakController::class, 'insert'])->name('peternak.insert');
+    Route::post('/peternak/update', [PeternakController::class, 'update'])->name('peternak.update');
+    Route::post('/peternak/delete', [PeternakController::class, 'delete'])->name('peternak.delete');
+
+    Route::get('/operator', [OperatorController::class, 'index'])->name('operator.index');
+    Route::get('/operator/tambah', [OperatorController::class, 'tambah'])->name('operator.tambah');
+    Route::get('/operator/edit/{operator_id}', [OperatorController::class, 'edit'])->name('operator.edit');
+    Route::get('/operator/{operator_id}', [OperatorController::class, 'view'])->name('operator.detail');
+    Route::post('/operator/insert', [OperatorController::class, 'insert'])->name('operator.insert');
+    Route::post('/operator/update', [OperatorController::class, 'update'])->name('operator.update');
+    Route::post('/operator/delete', [OperatorController::class, 'delete'])->name('operator.delete');
+
+    Route::get('/jenishewan', [HewanController::class, 'jenisHewan'])->name('jenishewan.index');
+    Route::post('/jenishewan/insert', [HewanController::class, 'insertjenisHewan'])->name('jenishewan.insert');
+    Route::post('/jenishewan/update', [HewanController::class, 'updatejenisHewan'])->name('jenishewan.update');
+    Route::post('/jenishewan/delete', [HewanController::class, 'deletejenisHewan'])->name('jenishewan.delete');
+
+    Route::get('/hewan', [HewanController::class, 'index'])->name('operator.hewan.index');
+    Route::get('/hewan/tambah', [HewanController::class, 'tambah'])->name('operator.hewan.tambah');
+    Route::get('/hewan/edit/{hewan_id}', [HewanController::class, 'edit'])->name('operator.hewan.edit');
+    Route::get('/hewan/{hewan_id}', [HewanController::class, 'view'])->name('operator.hewan.detail');
+    Route::post('/hewan/insert', [HewanController::class, 'insert'])->name('operator.hewan.insert');
+    Route::post('/hewan/update', [HewanController::class, 'update'])->name('operator.hewan.update');
+    Route::post('/hewan/delete', [HewanController::class, 'delete'])->name('operator.hewan.delete');
+
+    Route::get('/order', [TransaksiController::class, 'order'])->name('operator.order');
+    Route::get('/order/detail/{id}', [TransaksiController::class, 'detailAdmin'])->name('operator.order.detail');
+    Route::post('/order/proses', [TransaksiController::class, 'prosesPost'])->name('operator.order.proses');
+    Route::post('/order/selesai', [TransaksiController::class, 'selesaiPost'])->name('operator.order.selesai');
+
+    Route::get('/order/masuk', [TransaksiController::class, 'masuk'])->name('operator.order.masuk');
+    Route::get('/order/diproses', [TransaksiController::class, 'diproses'])->name('operator.order.diproses');
+    Route::get('/order/selesai', [TransaksiController::class, 'selesai'])->name('operator.order.selesai');
+    Route::get('/laporan', [LaporanController::class, 'transaksi'])->name('operator.laporan');
+    Route::get('/laporan/cetak', [LaporanController::class, 'cetak'])->name('operator.cetak-laporan');
 });

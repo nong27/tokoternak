@@ -130,6 +130,9 @@
                                         href="{{ route('admin') }}"><i
                                             data-feather="home"></i><span>Dashboard</span></a></li>
                                 <li class="dropdown"><a class="nav-link menu-title link-nav"
+                                        href="{{ route('operator.index') }}"><i
+                                            data-feather="user"></i><span>Operator</span></a></li>
+                                <li class="dropdown"><a class="nav-link menu-title link-nav"
                                         href="{{ route('peternak.index') }}"><i
                                             data-feather="user"></i><span>Peternak</span></a></li>
 

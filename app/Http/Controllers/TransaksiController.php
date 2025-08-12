@@ -35,10 +35,11 @@ class TransaksiController extends Controller
             $transaksi = Transaksi::get();
         else
             $transaksi = Transaksi::join('detailtransaksi', 'detailtransaksi.transaksi_id', '=', 'transaksi.transaksi_id')
-                ->join('produk', 'detailtransaksi.produk_id', '=', 'produk.produk_id')
+                ->join('hewan', 'detailtransaksi.hewan_id', '=', 'hewan.hewan_id')
+                ->join('peternak', 'peternak.peternak_id', '=', 'hewan.peternak_id')
                 ->where('status_transaksi', '!=', 'menunggu pembayaran')
                 ->where('status_transaksi', '!=', 'verifikasi pembayaran')
-                ->where('petani_id', '=', $this->user->petani->petani_id)
+                ->where('kecamatan_id', '=', $this->user->operator->kecamatan_id)
                 ->groupBy('transaksi.transaksi_id')
                 ->get();
         // dd($transaksi);
@@ -58,8 +59,17 @@ class TransaksiController extends Controller
     function detailAdmin($id)
     {
         $title = 'Detail Order';
-        $transaksi = Transaksi::find($id);
-        $detail = $transaksi->detailtransaksi;
+        if (Session::get('type') == 'admin') {
+            $transaksi = Transaksi::find($id);
+            $detail = $transaksi->detailtransaksi;
+        } else {
+            $transaksi = Transaksi::join('detailtransaksi', 'detailtransaksi.transaksi_id', 'transaksi.transaksi_id')
+                ->join('hewan', 'hewan.hewan_id', 'detailtransaksi.hewan_id')
+                ->join('peternak', 'hewan.peternak_id = peternak.peternak_id')
+                ->where('peternak.kecamatan_id', $this->user->operator->kecamatan_id)
+                ->groupBy('transaksi.transaksi_id')->get();
+            $detail = $transaksi->detailtransaksi;
+        }
         // $detail = Detailtransaksi::join('produk', 'detailtransaksi.produk_id', '=', 'produk.produk_id')
         //     ->where('transaksi_id', '=', $id)->get();
         // dd($transaksi->detailtransaksi);
@@ -80,16 +90,34 @@ class TransaksiController extends Controller
     {
         $title = 'Order Diproses';
 
-        $transaksi = Transaksi::where('status_transaksi', '=', 'diproses')->orWhere('status_transaksi', '=', 'belum diterima')->get();
+        if (Session::get('type') == 'admin')
+            $transaksi = Transaksi::where('status_transaksi', '=', 'diproses')->orWhere('status_transaksi', '=', 'belum diterima')->get();
         // dd($transaksi);
+        else {
+            $transaksi = Transaksi::join('detailtransaksi', 'detailtransaksi.transaksi_id', 'transaksi.transaksi_id')
+                ->join('hewan', 'hewan.hewan_id', 'detailtransaksi.hewan_id')
+                ->join('peternak', 'hewan.peternak_id = peternak.peternak_id')
+                ->where('peternak.kecamatan_id', $this->user->operator->kecamatan_id)
+                ->where('status_transaksi', '=', 'diproses')->orWhere('status_transaksi', '=', 'belum diterima')
+                ->groupBy('transaksi.transaksi_id')->get();
+            $detail = $transaksi->detailtransaksi;
+        }
         return view('backend.order-masuk', compact('transaksi', 'title'));
     }
     function selesai()
     {
         $title = 'Order Selesai';
 
-        $transaksi = Transaksi::where('status_transaksi', '=', 'selesai')->get();
-        return view('backend.order-masuk', compact('transaksi', 'title'));
+        if (Session::get('type') == 'admin')
+            $transaksi = Transaksi::where('status_transaksi', '=', 'selesai')->get();
+        else {
+            $transaksi = Transaksi::join('detailtransaksi', 'detailtransaksi.transaksi_id', 'transaksi.transaksi_id')
+                ->join('hewan', 'hewan.hewan_id', 'detailtransaksi.hewan_id')
+                ->join('peternak', 'hewan.peternak_id = peternak.peternak_id')
+                ->where('status_transaksi', '=', 'selesai')
+                ->groupBy('transaksi.transaksi_id')->get();
+            return view('backend.order-masuk', compact('transaksi', 'title'));
+        }
     }
 
     function kirimPost(Request $request): RedirectResponse
