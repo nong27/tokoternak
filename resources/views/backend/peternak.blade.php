@@ -53,22 +53,24 @@
                                         $no = 1;
                                     @endphp
                                     @foreach ($peternak as $row)
-                                        <td>{{ $no++ }}</td>
-                                        <td>{{ $row->peternak_nama }}</td>
-                                        <td>{{ $row->peternak_jk }}</td>
-                                        <td>{{ $row->peternak_alamat }}</td>
-                                        <td>{{ $row->peternak_hp }}</td>
-                                        <td><img src="{{ asset('storage/' . $row->peternak_foto) }}" alt=""></td>
-                                        <td>{{ $row->peternak_tempatlahir }}, {{ $row->peternak_tgllahir }}</td>
-                                        <td><a class="btn btn-success btn-sm active"
-                                                href="{{ route('peternak.edit', $row->peternak_id) }}"><i
-                                                    class="icon-pencil"></i>
-                                                Edit</a>
-                                            <a class="btn btn-danger btn-sm" href="javascript:void(0)"
-                                                data-bs-toggle="modal" data-bs-target="#hapus"
-                                                data-id="{{ $row->peternak_id }}"><i class="icon-trash"></i>
-                                                Hapus</a>
-                                        </td>
+                                        <tr>
+                                            <td>{{ $no++ }}</td>
+                                            <td>{{ $row->peternak_nama }}</td>
+                                            <td>{{ $row->peternak_jk }}</td>
+                                            <td>{{ $row->peternak_alamat }}</td>
+                                            <td>{{ $row->peternak_hp }}</td>
+                                            <td><img src="{{ asset('storage/' . $row->peternak_foto) }}" alt=""></td>
+                                            <td>{{ $row->peternak_tempatlahir }}, {{ $row->peternak_tgllahir }}</td>
+                                            <td><a class="btn btn-success btn-sm active"
+                                                    href="{{ route('peternak.edit', $row->peternak_id) }}"><i
+                                                        class="icon-pencil"></i>
+                                                    Edit</a>
+                                                <a class="btn btn-danger btn-sm" href="javascript:void(0)"
+                                                    data-bs-toggle="modal" data-bs-target="#hapus"
+                                                    data-id="{{ $row->peternak_id }}"><i class="icon-trash"></i>
+                                                    Hapus</a>
+                                            </td>
+                                        </tr>
                                     @endforeach
                                 </tbody>
 
