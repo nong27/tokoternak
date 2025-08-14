@@ -1,13 +1,13 @@
-@extends('template.' . Session::get('type'))
+@extends('template.admin')
 @section('content')
     <div class="container-fluid">
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-6">
-                    <h3>Peternak</h3>
+                    <h3>Operator</h3>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item active">Peternak</li>
+                        <li class="breadcrumb-item active">Operator</li>
                     </ol>
                 </div>
                 <div class="col-sm-6">
@@ -30,8 +30,8 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Daftar Peternak</h5><span>Daftar peternak terdaftar dalam sistem. Peternak dapat menginput data
-                            ternak yang ingin dijual</span>
+                        <h5>Daftar Operator</h5><span>Daftar operator terdaftar dalam sistem. Operator dapat menginput data
+                            penjual di setiap Kecamatan</span>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive product-table">
@@ -40,12 +40,9 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Nama Lengkap</th>
-                                        <th>Jenis Kelamin</th>
                                         <th>Alamat</th>
-                                        <th>Kecamatan</th>
                                         <th>HP</th>
-                                        <th>Profile</th>
-                                        <th>TTL</th>
+                                        <th>Kecamatan</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -53,25 +50,21 @@
                                     @php
                                         $no = 1;
                                     @endphp
-                                    @foreach ($peternak as $row)
-                                        <tr>
-                                            <td>{{ $no++ }}</td>
-                                            <td>{{ $row->peternak_nama }}</td>
-                                            <td>{{ $row->peternak_jk }}</td>
-                                            <td>{{ $row->peternak_alamat }}</td>
-                                            <td>{{ $row->peternak_hp }}</td>
-                                            <td><img src="{{ asset('storage/' . $row->peternak_foto) }}" alt=""></td>
-                                            <td>{{ $row->peternak_tempatlahir }}, {{ $row->peternak_tgllahir }}</td>
-                                            <td><a class="btn btn-success btn-sm active"
-                                                    href="{{ route('peternak.edit', $row->peternak_id) }}"><i
-                                                        class="icon-pencil"></i>
-                                                    Edit</a>
-                                                <a class="btn btn-danger btn-sm" href="javascript:void(0)"
-                                                    data-bs-toggle="modal" data-bs-target="#hapus"
-                                                    data-id="{{ $row->peternak_id }}"><i class="icon-trash"></i>
-                                                    Hapus</a>
-                                            </td>
-                                        </tr>
+                                    @foreach ($operator as $row)
+                                        <td>{{ $no++ }}</td>
+                                        <td>{{ $row->operator_nama }}</td>
+                                        <td>{{ $row->operator_alamat }}</td>
+                                        <td>{{ $row->operator_hp }}</td>
+                                        <td>{{ $row->kecamatan->kecamatan_nama }}</td>
+                                        <td><a class="btn btn-success btn-sm active"
+                                                href="{{ route('operator.edit', $row->operator_id) }}"><i
+                                                    class="icon-pencil"></i>
+                                                Edit</a>
+                                            <a class="btn btn-danger btn-sm" href="javascript:void(0)"
+                                                data-bs-toggle="modal" data-bs-target="#hapus"
+                                                data-id="{{ $row->operator_id }}"><i class="icon-trash"></i>
+                                                Hapus</a>
+                                        </td>
                                     @endforeach
                                 </tbody>
 
@@ -87,58 +80,39 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Tambah Peternak</h5>
+                    <h5 class="modal-title">Tambah Operator</h5>
                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('peternak.insert') }}" class="form-horizontal" method="POST"
+                <form action="{{ route('operator.insert') }}" class="form-horizontal" method="POST"
                     enctype="multipart/form-data">
                     <div class="modal-body">
                         <fieldset>
 
                             <!-- Form Name -->
-                            <h6 class="m-t-10">Identitas Peternak</h6>
+                            <h6 class="m-t-10">Identitas Operator</h6>
                             <hr>
                             @csrf
                             <!-- Text input-->
                             <div class="mb-3 row">
-                                <label class="col-lg-12 form-label " for="peternak_nama">Nama Lengkap</label>
+                                <label class="col-lg-12 form-label " for="operator_nama">Nama Lengkap</label>
                                 <div class="col-lg-12">
-                                    <input id="peternak_nama" name="peternak_nama" type="text" placeholder="Nama Lengkap"
-                                        class="form-control btn-square input-md" value="{{ old('peternak_nama') }}">
-                                    @error('peternak_nama')
+                                    <input id="operator_nama" name="operator_nama" type="text" placeholder="Nama Lengkap"
+                                        class="form-control btn-square input-md" value="{{ old('operator_nama') }}">
+                                    @error('operator_nama')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                             </div>
 
-                            <!-- Select Basic -->
-                            <div class="mb-3 row">
-                                <label class="col-lg-12 form-label " for="selectbasic">Jenis Kelamin</label>
-                                <div class="col-lg-12">
-                                    <select id="selectbasic" name="peternak_jk" class="form-select btn-square">
-                                        <option value="" label=""></option>
-                                        <option value="L" {{ old('peternak_jk') == 'L' ? 'selected' : '' }}>
-                                            Laki-Laki
-                                        </option>
-                                        <option value="P" {{ old('peternak_jk') == 'P' ? 'selected' : '' }}>
-                                            Perempuan
-                                        </option>
-                                    </select>
-
-                                    @error('peternak_jk')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
 
                             <!-- Text input-->
                             <div class="mb-3 row">
-                                <label class="col-lg-12 form-label " for="peternak_hp">No HP</label>
+                                <label class="col-lg-12 form-label " for="operator_hp">No HP</label>
                                 <div class="col-lg-12">
-                                    <input id="peternak_hp" value="{{ old('peternak_hp') }}" name="peternak_hp"
+                                    <input id="operator_hp" value="{{ old('operator_hp') }}" name="operator_hp"
                                         type="text" placeholder="No HP" class="form-control btn-square input-md">
-                                    @error('peternak_hp')
+                                    @error('operator_hp')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -146,17 +120,17 @@
 
                             <!-- Textarea -->
                             <div class="mb-3 row mb-0">
-                                <label class="col-lg-12 form-label " for="peternak_alamat">Alamat Peternak</label>
+                                <label class="col-lg-12 form-label " for="operator_alamat">Alamat Operator</label>
                                 <div class="col-lg-12">
-                                    <textarea class="form-control btn-square" id="peternak_alamat" name="peternak_alamat">{{ old('peternak_alamat') }}</textarea>
-                                    @error('peternak_alamat')
+                                    <textarea class="form-control btn-square" id="operator_alamat" name="operator_alamat">{{ old('operator_alamat') }}</textarea>
+                                    @error('operator_alamat')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
-                            @if (Session::get('type') == 'admin')
-                                <div class="mb-3 row mb-0">
-                                    <label class="col-lg-12 form-label " for="kecamatan_id">Kecamatan</label>
+                            <div class="mb-3 row mb-0">
+                                <label class="col-lg-12 form-label " for="kecamatan_id">Kecamatan</label>
+                                <div class="col-lg-12">
                                     <select id="selectbasic" name="kecamatan_id" class="form-select btn-square">
                                         <option value="" label=""></option>
                                         @foreach ($kecamatan as $item)
@@ -165,45 +139,8 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            @endif
-
-                            <!-- Text input-->
-                            <div class="mb-3 row">
-                                <label class="col-lg-12 form-label " for="peternak_tempatlahir">Tempat Lahir</label>
-                                <div class="col-lg-12">
-                                    <input id="peternak_tempatlahir" name="peternak_tempatlahir" type="text"
-                                        placeholder="Tempat Lahir" value="{{ old('peternak_tempatlahir') }}"
-                                        class="form-control btn-square input-md">
-                                    @error('peternak_tempatlahir')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
                             </div>
 
-                            <!-- Text input-->
-                            <div class="mb-3 row">
-                                <label class="col-lg-12 form-label " for="peternak_tgllahir">Tanggal Lahir</label>
-                                <div class="col-lg-12">
-                                    <input id="peternak_tgllahir" name="peternak_tgllahir"
-                                        value="{{ old('peternak_tgllahir') }}" type="date"
-                                        placeholder="Tanggal Lahir" class="form-control btn-square input-md">
-                                    @error('peternak_tgllahir')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <!-- Text input-->
-                            <div class="mb-3 row">
-                                <label class="col-lg-12 form-label " for="file">Foto</label>
-                                <div class="col-lg-12">
-                                    <input id="file" name="file" type="file" placeholder="placeholder"
-                                        class="form-control btn-square input-md" value="{{ old('file') }}">
-                                    @error('file')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
                             <h6 class="m-t-10">Informasi Akun</h6>
                             <hr>
 
@@ -246,7 +183,7 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
-                        <button class="btn btn-primary" type="submit">Tambah Peternak</button>
+                        <button class="btn btn-primary" type="submit">Tambah Operator</button>
                     </div>
                 </form>
             </div>
@@ -257,17 +194,17 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Hapus Peternak</h5>
+                    <h5 class="modal-title">Hapus Operator</h5>
                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('peternak.delete') }}" class="form-horizontal" method="POST"
+                <form action="{{ route('operator.delete') }}" class="form-horizontal" method="POST"
                     enctype="multipart/form-data">
                     <div class="modal-body">
                         <fieldset>
                             <!-- Form Name -->
-                            <h6 class="m-t-10">Yakin ingin menghapus data peternak?</h6>
+                            <h6 class="m-t-10">Yakin ingin menghapus data operator?</h6>
                             @csrf
-                            <input type="hidden" name="peternak_id" value id="kodeitemhapus">
+                            <input type="hidden" name="operator_id" value id="kodeitemhapus">
 
                         </fieldset>
                     </div>

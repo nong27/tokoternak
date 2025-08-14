@@ -73,7 +73,7 @@
                             <ul class="notification-dropdown onhover-show-div">
 
                                 <li class="noti-primary">
-                                    <a href="{{ route('admin.order.masuk') }}" class="">
+                                    <a href="{{ route('operator.order.masuk') }}" class="">
                                         <div class="media"><span class="notification-bg bg-light-primary"><i
                                                     data-feather="activity"> </i></span>
                                             <div class="media-body">
@@ -103,14 +103,14 @@
             <!-- Page Sidebar Start-->
             <header class="main-nav">
                 <div class="sidebar-user text-center"><a class="setting-primary"
-                        href="{{ route('admin.profil') }}"><i data-feather="settings"></i></a><img
+                        href="{{ route('operator.profil') }}"><i data-feather="settings"></i></a><img
                         class="img-90 rounded-circle" src="{{ asset('assets') }}/images/dashboard/1.png"
                         alt="">
                     <div class="badge-bottom"><span class="badge badge-primary">New</span></div><a
                         href="user-profile.html">
                         <h6 class="mt-3 f-14 f-w-600">{{ Session::get('email') }}</h6>
                     </a>
-                    <p class="mb-0 font-roboto">Admin</p>
+                    <p class="mb-0 font-roboto">OPERATOR</p>
                 </div>
                 <nav>
                     <div class="main-navbar">
@@ -127,11 +127,8 @@
                                     </div>
                                 </li>
                                 <li class="dropdown"><a class="nav-link menu-title link-nav"
-                                        href="{{ route('admin') }}"><i
+                                        href="{{ route('operator') }}"><i
                                             data-feather="home"></i><span>Dashboard</span></a></li>
-                                <li class="dropdown"><a class="nav-link menu-title link-nav"
-                                        href="{{ route('operator.index') }}"><i
-                                            data-feather="user"></i><span>Operator</span></a></li>
                                 <li class="dropdown"><a class="nav-link menu-title link-nav"
                                         href="{{ route('peternak.index') }}"><i
                                             data-feather="user"></i><span>Peternak</span></a></li>
@@ -142,10 +139,8 @@
                                     </div>
                                 </li>
                                 <li class="dropdown"><a class="nav-link menu-title link-nav"
-                                        href="{{ route('jenishewan.index') }}"><i
-                                            data-feather="settings"></i><span>Jenis Hewan</span></a></li>
-                                <li class="dropdown"><a class="nav-link menu-title link-nav"
-                                        href="{{ route('hewan.index') }}"><i data-feather="feather"></i><span>Hewan
+                                        href="{{ route('operator.hewan.index') }}"><i
+                                            data-feather="feather"></i><span>Hewan
                                             Ternak</span></a></li>
                                 <li class="sidebar-main-title">
                                     <div>
@@ -155,13 +150,13 @@
                                 <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)"><i
                                             data-feather="tag"></i><span>Transaksi</span></a>
                                     <ul class="nav-submenu menu-content">
-                                        <li><a href="{{ route('admin.order.masuk') }}">Order Masuk</a></li>
-                                        <li><a href="{{ route('admin.order.diproses') }}">Order Diproses</a></li>
-                                        <li><a href="{{ route('admin.order.selesai') }}">Order Selesai</a></li>
+                                        <li><a href="{{ route('operator.order.masuk') }}">Order Masuk</a></li>
+                                        <li><a href="{{ route('operator.order.diproses') }}">Order Diproses</a></li>
+                                        <li><a href="{{ route('operator.order.selesai') }}">Order Selesai</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown"><a class="nav-link menu-title link-nav"
-                                        href="{{ route('admin.laporan') }}"><i
+                                        href="{{ route('operator.laporan') }}"><i
                                             data-feather="file-text"></i><span>Laporan Transaksi</span></a></li>
                             </ul>
                         </div>
@@ -244,7 +239,7 @@
             $.notify({
                 title: title,
                 message: msg,
-                url: '{{ route('admin') }}',
+                url: '{{ route('operator') }}',
                 target: '_blank'
             }, {
                 type: 'warning',

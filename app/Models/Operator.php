@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Peternak extends Model
+class Operator extends Model
 {
-    protected $table = 'peternak';
-    protected $primaryKey = 'peternak_id';
+    protected $table = 'operator';
+    protected $primaryKey = 'operator_id';
     public $incrementing = true;
     public $timestamps = false;
-    public $guarded = ['peternak_id'];
+    public $guarded = ['operator_id'];
 
     function user(): BelongsTo
     {

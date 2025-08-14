@@ -58,6 +58,12 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <a href="https://wa.me/{{ substr($p->peternak_hp, 0, 1) == '0' ? '62' . substr($p->peternak_hp, 0, 1) : $p->peternak_hp }}"
+                                            class="btn btn-primary"></a>
+                                    </div>
+                                </div>
                             @endforeach
                         </div>
                         <div class="table-responsive">
@@ -163,6 +169,7 @@
                                         Invoice</a>
                                 @endif
                             </div>
+
                             {{-- <div class="col-12">
                                 <div class="form-check text-start my-3">
                                     <label class="form-check-label" for="Transfer-1">Pengiriman</label>

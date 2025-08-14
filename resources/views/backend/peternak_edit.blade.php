@@ -1,4 +1,4 @@
-@extends('template.admin')
+@extends('template.' . Session::get('type'))
 @section('content')
     <div class="container-fluid">
         <div class="page-header">
@@ -91,7 +91,18 @@
                                         @enderror
                                     </div>
                                 </div>
-
+                                @if (Session::get('type') == 'admin')
+                                    <div class="mb-3 row mb-0">
+                                        <label class="col-lg-12 form-label " for="kecamatan_id">Kecamatan</label>
+                                        <select id="selectbasic" name="kecamatan_id" class="form-select btn-square">
+                                            <option value="" label=""></option>
+                                            @foreach ($kecamatan as $item)
+                                                <option value="{{ $item->kecamatan_id }}" @selected($item->kecamatan_id == $peternak->kecamatan_id)>
+                                                    {{ $item->kecamatan_nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                @endif
                                 <!-- Text input-->
                                 <div class="mb-3 row">
                                     <label class="col-lg-12 form-label " for="peternak_tempatlahir">Tempat Lahir</label>
@@ -131,8 +142,9 @@
                                         <span class="small text-primary">*Biarkan kosong jika tidak ingin mengubah
                                             gambar.</span>
                                         <div class="col-lg-12">
-                                            <input id="file" name="file" type="file" placeholder="placeholder"
-                                                class="form-control btn-square input-md" value="{{ old('file') }}">
+                                            <input id="file" name="file" type="file"
+                                                placeholder="placeholder" class="form-control btn-square input-md"
+                                                value="{{ old('file') }}">
                                             @error('file')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
